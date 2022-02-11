@@ -24,12 +24,24 @@
   
   </div>
 
-  <div class="row">
-    <textarea id="result"></textarea>
+  <div x-data="json">
+    <button id="result-json">JSON</button>
+    <button id="result-table">Table</button>
+
+    <div class="row" x-show="json">
+      <textarea id="result"></textarea>
+    </div>
+    <div class="row" x-show="table">
+      <table id ="api-result" />
+    </div>
   </div>
+ 
 </div>
 
 <script>
+  var data = undefined;
+  var view = "json";
+
   var editor = CodeMirror.fromTextArea(document.querySelector("#result"), {
       lineNumbers: true,
       mode: {
@@ -42,6 +54,7 @@
   editor.setSize("100%", null);
 
   $(function () {
+    setupJs();
     var $apiUrl = $("#input-url");
 
      editor.setValue("Please click the 'Test' button to run the test");
@@ -57,12 +70,53 @@
         method: method
       })
       .then((response) => response.json())
-      .then((json) => showResult(json));
+      .then((json) => {
+        data = json; 
+        showResult(json)
       });
+    });
   })
+
+  function setupJs() {
+    $("#result-json").on("click", function (e) {
+      $("[x-show=json]").show();
+      $("[x-show=table]").hide();
+      view = "json";
+      renderJson(data);
+    })
+
+    $("#result-table").on("click", function (e) {
+      $("[x-show=json]").hide();
+      $("[x-show=table]").show();
+      view = "table";
+      renderTable(data);
+    })
+    
+  }
 
   function showResult(json) {
     console.log(json);
-    editor.setValue(JSON.stringify(json, null, "\t"));
+    if (view == "json") {
+      editor.setValue(JSON.stringify(json, null, "\t"));
+    } else {
+      renderTable(json);
+
+    }
+  }
+
+  function renderJson(data) {
+     editor.setValue(JSON.stringify(data, null, "\t"));
+  }
+
+  function renderTable(json) {
+    var tbl_body = "";
+    $.each(data, function() {
+        var tbl_row = "";
+        $.each(this, function(k , v) {
+            tbl_row += `<td>${v}</td>`;
+        });
+        tbl_body += `<tr>${tbl_row}</tr>`;
+    });
+    $("#api-result").html(tbl_body);
   }
 </script>
