@@ -18,7 +18,7 @@ defmodule TelegraphWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/test", TestController, :index
+    get "/test/:id", TestController, :show
 
     # live "/test", TestApiLive
   end

@@ -87,3 +87,14 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.card {
+  border: 1px solid #ddd;
+  margin: 6px;
+  user-select: none;
+}
+
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}

@@ -30,9 +30,12 @@
   });
 
   editor.setOption('theme', 'material-darker');
+  editor.setSize("100%", null);
 
   $(function () {
     var $apiUrl = $("#input-url");
+
+     editor.setValue("Please click the 'Test' button to run the test");
     
     $apiUrl.val("https://jsonplaceholder.typicode.com/posts");
 

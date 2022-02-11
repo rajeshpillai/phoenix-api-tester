@@ -1,7 +1,8 @@
 defmodule TelegraphWeb.TestController do
   use TelegraphWeb, :controller
 
-  def index(conn, _params) do
-    render(conn, "index.html")
+  def show(conn, %{"id" => id}) do
+    IO.inspect(id)
+    render(conn, "show.html")
   end
 end
