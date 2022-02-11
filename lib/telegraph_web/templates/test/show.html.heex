@@ -5,6 +5,12 @@
 <div class="container">
   <div class="row">
     <input type="text" placeholder="API URL" id="input-url"/>
+    <select id="http-method">
+      <options>
+        <option>GET</option>
+        <option>POST</option>
+      </options>
+    </select>
   </div>
   <div class="row">
 
@@ -42,8 +48,11 @@
     $("#btn-test").on("click", function (e) {
       e.preventDefault();
       var url = $apiUrl.val();
+      var method = $("#http-method").val();
       console.log(`Fetching ${url}...`);
-      fetch(url)
+      fetch(url, {
+        method: method
+      })
       .then((response) => response.json())
       .then((json) => showResult(json));
       });
