@@ -14,14 +14,7 @@
         <option>POST</option>
       </options>
     </select>
-  </div>
-  <div class="row">
-
-      <input type="text">
-      <input type="text">
-
-      <button id="btn-test">Test</button>
-  
+    <button id="btn-test">Test</button>
   </div>
 
   <div x-data="json">
@@ -110,12 +103,25 @@
 
   function renderTable(json) {
     var tbl_body = "";
+   
+    var first = json[0] || [];
+    var header = '';
+
+    if (first) {
+      Object.keys(first).forEach(k => {
+        console.log("k: ", k);
+        header += `<th>${k}</th>`
+      })
+    }
+
+    header = `<thead><tr>${header}</tr></thead>`
+
     $.each(data, function() {
         var tbl_row = "";
         $.each(this, function(k , v) {
             tbl_row += `<td>${v}</td>`;
         });
-        tbl_body += `<tr>${tbl_row}</tr>`;
+        tbl_body += `${header}<tr>${tbl_row}</tr>`;
     });
     $("#api-result").html(tbl_body);
   }
