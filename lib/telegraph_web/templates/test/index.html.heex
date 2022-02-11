@@ -1,0 +1,53 @@
+<section>
+  <h4>Telgraph: API Tester</h4>
+</section>
+
+<div class="container">
+  <div class="row">
+    <input type="text" placeholder="API URL" id="input-url"/>
+  </div>
+  <div class="row">
+
+      <input type="text">
+      <input type="text">
+
+      <button id="btn-test">Test</button>
+  
+  </div>
+
+  <div class="row">
+    <textarea id="result"></textarea>
+  </div>
+</div>
+
+<script>
+  var editor = CodeMirror.fromTextArea(document.querySelector("#result"), {
+      lineNumbers: true,
+      mode: {
+        name: "javascript",
+        json: true
+      }
+  });
+
+  editor.setOption('theme', 'material-darker');
+
+  $(function () {
+    var $apiUrl = $("#input-url");
+    
+    $apiUrl.val("https://jsonplaceholder.typicode.com/posts");
+
+    $("#btn-test").on("click", function (e) {
+      e.preventDefault();
+      var url = $apiUrl.val();
+      console.log(`Fetching ${url}...`);
+      fetch(url)
+      .then((response) => response.json())
+      .then((json) => showResult(json));
+      });
+  })
+
+  function showResult(json) {
+    console.log(json);
+    editor.setValue(JSON.stringify(json, null, "\t"));
+  }
+</script>
