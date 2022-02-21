@@ -17,13 +17,15 @@
     <button id="btn-test">Test</button>
   </div>
   <div class="row">
-    <%= dump_nested @fields.inputs, fn(attributes, fun) -> %>
+    <%= dump_nested @fields.inputs, fn(attributes, _fun) -> %>
     <dl>
+      <form  id="input-params">
       <%= for {key, value} <- attributes do %>
         <dt><%= key %></dt>
         <label for={key}></label>
-        <input type="text" id={key} />
+        <input type="text" id={key} name={key} />
       <% end %>
+      </form>
     </dl>
   <% end %>
 </div>
@@ -46,6 +48,7 @@
   var data = undefined;
   var view = "json";
 
+
   var editor = CodeMirror.fromTextArea(document.querySelector("#result"), {
       lineNumbers: true,
       mode: {
@@ -61,13 +64,15 @@
     setupJs();
     var $apiUrl = $("#input-url");
 
-     editor.setValue("Please click the 'Test' button to run the test");
+    editor.setValue("Please click the 'Test' button to run the test");
     
-    $apiUrl.val("https://jsonplaceholder.typicode.com/posts");
+    $apiUrl.val("https://jsonplaceholder.typicode.com/todos");
 
     $("#btn-test").on("click", function (e) {
       e.preventDefault();
-      var url = $apiUrl.val();
+      var inputs = $("#input-params").serialize();
+      console.log(inputs);
+      var url = $apiUrl.val() + `?${inputs}`;
       var method = $("#http-method").val();
       console.log(`Fetching ${url}...`);
       fetch(url, {

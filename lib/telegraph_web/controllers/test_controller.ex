@@ -5,11 +5,11 @@ defmodule TelegraphWeb.TestController do
     IO.inspect(id)
     fields = %{
       inputs:  %{
-        title: %{
+        userId: %{
           type: "text"
         },
-        author: %{
-          type: "text"
+        completed: %{
+          type: "boolean"
         },
       }
     }
