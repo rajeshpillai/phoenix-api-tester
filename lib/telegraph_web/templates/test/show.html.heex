@@ -17,11 +17,12 @@
     <button id="btn-test">Test</button>
   </div>
   <div class="row">
-    <%= dump_nested @fields, fn(attributes, fun) -> %>
+    <%= dump_nested @fields.inputs, fn(attributes, fun) -> %>
     <dl>
       <%= for {key, value} <- attributes do %>
         <dt><%= key %></dt>
-        <dd><%= dump_nested value, fun %><dd>
+        <label for={key}></label>
+        <input type="text" id={key} />
       <% end %>
     </dl>
   <% end %>
