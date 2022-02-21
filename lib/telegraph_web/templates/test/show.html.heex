@@ -16,6 +16,16 @@
     </select>
     <button id="btn-test">Test</button>
   </div>
+  <div class="row">
+    <%= dump_nested @fields, fn(attributes, fun) -> %>
+    <dl>
+      <%= for {key, value} <- attributes do %>
+        <dt><%= key %></dt>
+        <dd><%= dump_nested value, fun %><dd>
+      <% end %>
+    </dl>
+  <% end %>
+</div>
 
   <div x-data="json">
     <button id="result-json">JSON</button>
