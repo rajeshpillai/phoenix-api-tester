@@ -4,17 +4,6 @@ defmodule TelegraphWeb.TestController do
 
   def show(conn, %{"id" => id}) do
     IO.inspect(id)
-    fields = %{
-      inputs:  %{
-        userId: %{
-          type: "text"
-        },
-        completed: %{
-          type: "boolean"
-        },
-      }
-    }
-
     api = Api.get_api(id)
     IO.inspect(api)
     render(conn, "show.html", fields: api)
